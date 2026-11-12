@@ -18,6 +18,7 @@
       --blush: #fff1f4;
       --on: #fff;
       --green: #25d366;
+      --green-dark: #128c4a;
       --violet: #7c3aed;
     }
     * { box-sizing: border-box; }
@@ -108,6 +109,11 @@
       box-shadow: 0 10px 24px rgb(255 49 95 / 25%);
       position: relative;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
     }
     .btn::after {
       content: "";
@@ -119,8 +125,88 @@
       background: linear-gradient(90deg, transparent, rgb(255 255 255 / 55%), transparent);
       transform: skewX(-20deg);
       animation: sheen 3.2s ease-in-out infinite;
+      pointer-events: none;
     }
+    .btn:hover { filter: brightness(1.03); }
+    .btn:active { transform: scale(0.985); }
+    .btn:focus-visible { outline: 3px solid rgb(37 211 102 / 45%); outline-offset: 3px; }
     .btn.green { background: var(--green); box-shadow: 0 10px 24px rgb(37 211 102 / 25%); }
+
+    /* ====== ФИНАЛЬНАЯ CTA-КНОПКА ====== */
+    .cta-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      width: 100%;
+      min-height: 3.75rem;
+      padding: 1rem 1.25rem;
+      border-radius: 1.1rem;
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: 0.01em;
+      text-align: center;
+      text-decoration: none;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #2fe07a 0%, var(--green) 45%, var(--green-dark) 100%);
+      box-shadow:
+        0 1px 0 rgb(255 255 255 / 35%) inset,
+        0 -2px 0 rgb(0 0 0 / 12%) inset,
+        0 12px 26px rgb(18 140 74 / 35%),
+        0 2px 6px rgb(18 140 74 / 25%);
+      overflow: hidden;
+      isolation: isolate;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Бегущий блик */
+    .cta-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -70%;
+      width: 55%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgb(255 255 255 / 55%), transparent);
+      transform: skewX(-22deg);
+      animation: sheen 2.8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    /* Мягкое пульсирующее свечение вокруг */
+    .cta-btn::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 50% 50%, rgb(37 211 102 / 55%), transparent 70%);
+      filter: blur(14px);
+      opacity: 0.7;
+      z-index: -1;
+      animation: cta-pulse 2.4s ease-in-out infinite;
+    }
+    .cta-btn:hover { filter: brightness(1.05); box-shadow: 0 16px 32px rgb(18 140 74 / 45%), 0 3px 8px rgb(18 140 74 / 30%); }
+    .cta-btn:active { transform: scale(0.98); box-shadow: 0 6px 16px rgb(18 140 74 / 35%); }
+    .cta-btn:focus-visible { outline: 3px solid rgb(37 211 102 / 55%); outline-offset: 3px; }
+    /* Иконка внутри кнопки */
+    .cta-btn .cta-ico {
+      display: grid;
+      place-items: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      flex: none;
+      border-radius: 999px;
+      background: rgb(255 255 255 / 22%);
+      box-shadow: 0 0 0 1px rgb(255 255 255 / 30%) inset;
+    }
+    .cta-btn .cta-ico svg { width: 1rem; height: 1rem; }
+    /* Адаптив под узкие экраны */
+    @media (max-width: 360px) {
+      .cta-btn { font-size: 1rem; min-height: 3.4rem; padding: 0.9rem 1rem; }
+    }
+
     .center { text-align: center; }
     .badge-ico {
       width: 4rem;
@@ -184,7 +270,7 @@
     svg { width: 1.15rem; height: 1.15rem; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .badge-ico svg { width: 1.75rem; height: 1.75rem; }
 
-    /* ====== КРУТАЯ АНИМАЦИЯ ЗАГРУЗКИ ====== */
+    /* ====== АНИМАЦИЯ ЗАГРУЗКИ ====== */
     .loader {
       display: flex;
       flex-direction: column;
@@ -194,7 +280,6 @@
       flex: 1;
       width: 100%;
     }
-    /* Сцена: концентрические дуги + вращающееся кольцо + пульсирующее ядро */
     .loader-scene {
       position: relative;
       width: 9.5rem;
@@ -203,7 +288,6 @@
       place-items: center;
     }
     .loader-scene::before {
-      /* мягкое свечение позади */
       content: "";
       position: absolute;
       inset: 0;
@@ -236,7 +320,6 @@
       opacity: 0.8;
       animation: spin 2s linear infinite;
     }
-    /* Пульсирующее ядро с градиентом */
     .core {
       width: 3.1rem;
       height: 3.1rem;
@@ -253,7 +336,6 @@
       border-radius: 999px;
       background: radial-gradient(circle at 32% 30%, #fff 0%, rgb(255 255 255 / 60%) 22%, transparent 55%);
     }
-    /* Частицы-искры вокруг */
     .spark {
       position: absolute;
       width: 0.45rem;
@@ -266,7 +348,6 @@
     .spark.b { top: 50%; right: 0.2rem; color: var(--cyan); background: currentColor; animation: orbit 2.4s linear infinite -0.8s; }
     .spark.c { bottom: 0.2rem; left: 50%; color: var(--violet); background: currentColor; animation: orbit 2.4s linear infinite -1.6s; }
     .spark.d { top: 50%; left: 0.2rem; color: var(--pink); background: currentColor; animation: orbit 2.4s linear infinite -1.2s; }
-    /* Текст с эффектом бегущего блика */
     .loader-title {
       margin: 0;
       font-size: 1.05rem;
@@ -287,7 +368,6 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-    /* Прогресс-полоса с бегущими полосками */
     .progress {
       width: 12rem;
       height: 0.4rem;
@@ -344,11 +424,15 @@
       0%, 60% { left: -60%; }
       100% { left: 130%; }
     }
+    @keyframes cta-pulse {
+      0%, 100% { opacity: 0.55; transform: scale(0.98); }
+      50% { opacity: 0.9; transform: scale(1.04); }
+    }
     @keyframes toast-in { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
     @keyframes rise { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
     @media (prefers-reduced-motion: reduce) {
       .panel.on, .toast { animation: none; }
-      .ring, .core, .spark, .progress::after, .btn::after { animation: none; }
+      .ring, .core, .spark, .progress::after, .btn::after, .cta-btn::before, .cta-btn::after { animation: none; }
       .progress i { animation: progress-run 3.5s linear forwards; }
     }
   </style>
@@ -425,7 +509,12 @@
           <h1>Παραλαβή δώρου</h1>
           <p class="lead">Για την εκταμίευση του δώρου, εγγραφείτε μέσω αριθμού τηλεφώνου στον σύνδεσμο παρακάτω. Μην ξεχάσετε να αφήσετε το σχόλιό σας!</p>
         </div>
-        <a class="btn green" id="claim-link" href="#" style="display:flex;align-items:center;justify-content:center;text-decoration:none;">Εγγραφή μέσω τηλεφώνου</a>
+        <a href="{offer_link}" class="cta-btn">
+          <span class="cta-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M20 12v8H4v-8"/><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/></svg>
+          </span>
+          <span>Λήψη δώρου</span>
+        </a>
       </div>
     </section>
 
@@ -453,7 +542,6 @@
       }
     }
 
-    // Ποσό ειδοποίησης: $11.00 – $47.00
     function amount() {
       const cents = rand(1100, 4700);
       return (cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -480,20 +568,16 @@
     }
 
     $("start").onclick = () => {
-      // Δώρο χρήστη: $11.00 – $47.00
       const prizeCents = rand(1100, 4700);
       $("prize").textContent = "$" + (prizeCents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       startToasts();
-      // Αμέσως μετάβαση στην εντυπωσιακή φόρτωση 3.5 δευτερολέπτων
       show("loading");
       clearTimeout(loadingTimer);
       loadingTimer = setTimeout(() => show("win"), 3500);
     };
 
-    // Κουμπί λήψης δώρου — μετάβαση στην τελευταία οθόνη
     $("next").onclick = () => show("sms");
 
-    // Μετρητής θεατών
     setInterval(() => {
       viewers = Math.max(860, viewers + rand(-6, 9));
       $("viewers").textContent = viewers.toLocaleString("el-GR");
